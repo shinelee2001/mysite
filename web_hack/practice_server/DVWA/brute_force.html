@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Brute Force Attack</title>
+  </head>
+
+  <body>
+    <a href="../../../index.html">home</a>
+    <a href="../../../web_hack.html">web_hack</a>
+    <a href="../DVWA.html">DVWA</a>
+
+    <h1>Brute Force attack</h1>
+    <div>
+      Brute Force attack is uses trial and error to crack passwords, login
+      credentials, and encryption keys. It is simple yet reliable tactic for
+      gaining unauthorized access to individual accounts and organizations'
+      systems and networks. The chance gets extremely smaller if special and
+      numeric characters are used and the length of password gets longer.
+      <br />
+      There are largely two types of brute force attack :
+      <ol>
+        <li>Alphabetic substitution</li>
+        <p>
+          Alphabetic substitution simply tries all possible candidates from a to
+          z. (Special and numeric characters can be included)
+        </p>
+        <li>Dictionary attack</li>
+        <p>
+          Dictionary attack uses a file which contains a list of candidates.
+          (The file could contain more than hundreds of thousands of candidates)
+        </p>
+      </ol>
+    </div>
+    <br />
+    <div>
+      Kali Linux (debian-based linux), Burp Suite(hacking program) and
+      DVWA(server that is developed for hacking practice) were used for
+      practice.
+    </div>
+
+    <br />
+
+    <h3>1. Alphabetic Substitution</h3>
+    <h4>LOW SECURITY LEVEL</h4>
+    <img src="brute_force_img/BFA(low).png" />
+    <p>
+      The code above shows how log-in algorithm works. Here, the code simply
+      accepts 'username' and 'password' and send them to database to check if
+      the user exists. But, it does not defend against brute force attack. In
+      order to defend against the attack, we have to check the frequency of the
+      log-in trial or generate session token to reject the packet coming through
+      CSRF.
+    </p>
+    <img src="brute_force_img/BFA(login).png" width="30%" />
+    <img src="brute_force_img/BFA(login-http).png" width="30%" />
+    <img src="brute_force_img/BFA(send-to-intruder).png" width="30%" />
+    <p>
+      First, we need to find the log-in request on Burp Suite and send the
+      request to intruder.
+    </p>
+    <img src="brute_force_img/BFA(intruder-position).png" width="30%" />
+    <img src="brute_force_img/BFA(intruder-payload-type).png" width="30%" />
+    <img src="brute_force_img/BFA(intruder-payload-option).png" width="30%" />
+    <p>
+      Move to 'Intruder' tab.
+      <br />
+      Set payload position($) on a password and playload type to 'Brute forcer'.
+      Modify playload options and click 'start attack' button.
+    </p>
+    <img src="brute_force_img/BFA(intruder-attack1).png" />
+    <p>
+      If the attack is successful, the length of a request will differ from
+      those of other requests.
+    </p>
+  </body>
+</html>
