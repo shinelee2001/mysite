@@ -77,3 +77,56 @@ body {
 .todo .close:hover {
   color: blac;
 }
+
+/* modal style */
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  top: 20%;
+  width: 60vw;
+  height: 40vh;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem;
+  background-color: black;
+}
+
+.title,
+.modalCloseBtn {
+  color: #e9e9e9;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.modalCloseBtn:hover,
+.modalCloseBtn:focus {
+  color: red;
+  font-size: 1.3rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.modalContent {
+  position: absolute;
+  background-color: grey;
+  width: 100%;
+  padding: 0.5rem;
+}
+
+#todo_input,
+#todo_submit {
+  padding: 0.3rem 1rem;
+  width: 100%;
+  margin: 0.3rem 0;
+}
+
+#todo_submit {
+  background-color: aliceblue;
+  font-weight: bold;
+  border-color: aliceblue;
+}
