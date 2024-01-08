@@ -29,6 +29,7 @@ body {
 
 .status h1 {
   position: relative;
+  text-align: center;
   top: 0;
   left: 0;
   background-color: black;
