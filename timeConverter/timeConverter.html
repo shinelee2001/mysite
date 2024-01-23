@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <div id="root"></div>
+    </body>
+    <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+        function App() {
+            const [time, setTime] = React.useState(0);
+            const [flipped, setFlipped] = React.useState(false);
+            const timeChange = (event) => {
+                setTime(event.target.value);
+            };
+            const reset = () => setTime((time) => (time = 0));
+            const flip = () => {
+                setFlipped((current) => !current);
+                reset();
+            };
+            return (
+                <div>
+                    <a href="../index.html">Home</a>
+                    <h1 className="hi">Mins to Hrs Converter</h1>
+                    <div>
+                        <label htmlFor="minutes">Minutes</label>
+                        <input
+                            id="minutes"
+                            value={flipped ? time * 60 : time}
+                            type="number"
+                            onChange={timeChange}
+                            disabled={flipped === true}
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="hours">Hours</label>
+                        <input
+                            id="hours"
+                            value={flipped ? time : time / 60}
+                            type="number"
+                            onChange={timeChange}
+                            disabled={flipped === false}
+                        />
+                    </div>
+                    <button onClick={reset}>Reset</button>
+                    <button onClick={flip}>Flip the functionality</button>
+                </div>
+            );
+        }
+        const root = document.getElementById('root');
+        ReactDOM.render(<App />, root);
+    </script>
+</html>
