@@ -1,0 +1,31 @@
+body {
+    background-color: rgb(218, 218, 218);
+    color: black;
+}
+#content {
+    border: 2px ridge rgb(129, 129, 129);
+    margin: 20px 0px;
+}
+
+#content #paragraph {
+    margin: 10px 0px;
+    padding: 10px 5px;
+    word-break: keep-all;
+    background-color: aliceblue;
+}
+
+#paragraph header {
+    font-size: x-large;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+div a:link, div a:visited {
+    color:blue;
+    text-decoration-line: none;
+}
+
+code {
+    color:black;
+    font-weight: bold;
+}

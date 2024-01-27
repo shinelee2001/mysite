@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Automation</title>
+        <link rel="stylesheet" href="../auto-style.css" type="text/css" />
+    </head>
+
+    <body>
+        <a href="../../index.html">Back to Main</a>
+        <a href="../automation.html">Back to Automation</a>
+        <h1>Content for crawling</h1>
+        <div id="content">
+            <div id="paragraph">
+                <header>BeautifulSoup 엔코딩 에러</header>
+                bs4 모듈에서 BeautifulSoup을 가져와 html문서를 parsing할 때
+                "UnicodeEncodeError: 'cp949' codec can't encode character ... in
+                position ...: illegal multibyte sequence" 라는 에러를 띄울시
+                sys와 io 모듈을 활용하여 다음과 같이 해결할 수 있다.
+                <code>
+                    <br />sys.stdout = io.TextIOWrapper(sys.stdout.detach(),
+                    encoding="utf-8") <br />sys.stderr =
+                    io.TextIOWrapper(sys.stderr.detach(), encoding="utf-8")
+                </code>
+            </div>
+            <div id="paragraph">
+                <header>Bot 차단 방지 대책</header>
+                <ol>
+                    <li>긴 시간을 두고 크롤링 실행</li>
+                    <li>url 접근 요청시 header 목록 지정</li>
+                    <p>
+                        예제<br />
+                        <code>
+                            import requests<br />
+                            header_config = { 'User-Agent' : 'Mozilla/5.0',
+                            'Content-Type' : 'text/html; charset=utf-8', ...
+                            }<br />
+                            req = requests.get(url, headers=header_config)
+                        </code>
+                    </p>
+                </ol>
+            </div>
+            <div id="paragraph">
+                <header>Regular Expression</header>
+                BeautifulSoup을 활용하여 html 문서를 parsing하여 원하는 DOM
+                객체에 접근해도 되지만, 파이썬 라이브러리에서 제공하는
+                re(regular expression) 모듈을 활용하면 바로 문자열 형태로
+                검색하여 원하는 결과를 찾을 수 있다.
+                <a href="#prac3">실습 3</a>을 참고하라.
+            </div>
+        </div>
+        <div id="content">
+            <div id="paragraph">
+                <header>DOM 객체 접근값 확인</header>
+                웹페이지의 특정 문서 객체(DOM)를 가져올 때, 굳이 그 경로를
+                일일히 확인하지 않더라도 개발자도구 창의 Element 탭에서 원하는
+                DOM 객체를 선택하여 copy->copy selector 버튼을 통해 그 객체의
+                접근 값을 바로 복사할 수 있다.
+            </div>
+            <div id="paragraph">
+                <header>선택된 요소의 속성값 확인</header>
+                선택된 요소의 특정 속성을 가져오고 싶으면 요소['특정 속성']의
+                형태로 접근 가능하다. 예를 들어, 선택된 요소의 연결
+                링크(href)값을 가져오고 싶으면 다음과 같이 접근 가능하다.
+                <code>
+                    <br />... <br />soup = BeautifulSoup(html_src, "html5lib")
+                    // html5lib는 parser의 한 종류이다. <br />tags =
+                    soup.select("요소 접근 쿼리") <br />for tag in tags:
+                    <br />&emsp;print(tag['href'])
+                </code>
+            </div>
+            <div id="paragraph">
+                <header>
+                    실습 1. malware-traffic-analysis.net에서 2023년도 취약점
+                    크롤링
+                </header>
+                <pre>
+                    <code>
+from bs4 import BeautifulSoup
+import requests,sys,io
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding="utf-8")
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding="utf-8")
+
+url = "https://www.malware-traffic-analysis.net/2023/index.html"
+html = requests.get(url).text
+soup = BeautifulSoup(html, "html5lib")
+
+tags = soup.select("#main_content > div.blog_entry > ul > li > a.main_menu")
+for tag in tags:
+    if tag.string != None:
+        print(tag.string)
+        print("https://www.malware-traffic-analysis.net/2023" + tag['href'])
+        print()
+                    </code>
+                </pre>
+            </div>
+            <div id="paragraph">
+                <header>
+                    실습2. boannews.com의 메인페이지에서 링크들 가져오기
+                </header>
+                특정 웹사이트의 링크 정보들을 가져오면서, 웹사이트 디렉터리
+                구조를 파악할 수 있다.
+                <pre>
+                    <code>
+import requests
+from bs4 import BeautifulSoup
+
+url = "http://boannews.com"
+res = requests.get(url).text
+soup = BeautifulSoup(res, "lxml")
+
+for link in soup.find_all("a"):
+    link_href = str(link['href'])
+    if (link_href.startswith('http')):
+        print(link_href)
+    elif (link_href == None):
+        continue
+    else:
+        print(url + link_href)
+                    </code>
+                </pre>
+            </div>
+            <div id="paragraph">
+                <header id="prac3">
+                    실습3. 네이버 스포츠 기사에서 기자 이메일 가져오기
+                </header>
+                <pre>
+                    <code>
+import requests
+import re
+
+url="https://n.news.naver.com/sports/basketball/article/351/0000070909"
+header ={
+    'User-Agent': 'Mozilla/5.0',
+    'Content-Type': 'text/html; charset=utf-8'
+}
+res = requests.get(url, headers=header)
+results = re.findall(r'[\w\.-]+@[\w\.-]+', res.text)
+print(results)
+results = list(set(results))
+print(results)
+                    </code>
+                </pre>
+            </div>
+            <div id="paragraph">
+                <header>
+                    실습4. pyperclip을 활용한 복사한 내용 중 중요 정보 추출
+                </header>
+                임의의 내용을 ctrl+C로 복사한 후 아래 코드를 실행하면 복사한
+                내용 중에서 email 형식의 문자열을 찾아 반환한다.
+                <pre>
+                    <code>
+import pyperclip
+import re
+
+text = str(pyperclip.paste())
+emails = re.findall(r'[\w\.-]+@[\w\.-]+', text)
+
+result = (list(set(emails)))
+print(result)
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </body>
+</html>
