@@ -1,9 +1,3 @@
-// Draw graph on load
-window.onload = () => {
-    generateGraph(5);
-    draw();
-};
-
 // Get node numbers
 const nodeForm = document.getElementById('nodeForm');
 nodeForm.addEventListener('submit', (e) => {
