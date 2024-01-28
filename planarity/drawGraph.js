@@ -17,6 +17,7 @@ export const nodes = [];
 // drawGraph
 function generateGraph(numNodes) {
     lines.length = 0;
+    nodes.length = 0;
     // create nodes on canvas
     for (let i = 0; i < numNodes; i++) {
         nodes.push({
