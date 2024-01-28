@@ -15,7 +15,8 @@
                 bs4 모듈에서 BeautifulSoup을 가져와 html문서를 parsing할 때
                 "UnicodeEncodeError: 'cp949' codec can't encode character ... in
                 position ...: illegal multibyte sequence" 라는 에러를 띄울시
-                sys와 io 모듈을 활용하여 다음과 같이 해결할 수 있다.
+                sys와 io 모듈을 활용하여 다음과 같이 해결할 수 있다. 즉,
+                Encoding 방식을 CP949 대신 UTF-8 방식을 사용하면 해결 가능하다.
                 <code>
                     <br />sys.stdout = io.TextIOWrapper(sys.stdout.detach(),
                     encoding="utf-8") <br />sys.stderr =

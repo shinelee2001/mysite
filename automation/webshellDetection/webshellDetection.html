@@ -10,7 +10,132 @@
         <a href="../automation.html">Back to Automation</a>
         <h1>Content for Webshell detection using ChatGPT</h1>
         php, jsp 등 server-side 스크립트 내의 악의적인 코드들이 존재하는 지
-        확인하는 지에 중점을 두었다.
-        <div id="content"></div>
+        확인하는 지에 중점을 두었다. 칼리 리눅스에서 기본 제공하는 .php 확장자
+        웹쉘 파일들 (/usr/share/webshells/php) 테스트 결과
+        <div id="content">
+            <div id="paragraph">
+                <header>Webshel Detection Solution이 가추어야할 기능</header>
+                <ol>
+                    <li>
+                        Signature Based Scan(시그니처 기반 탐지): 이미 알려진
+                        웹쉘의 시그니처를 활용하여 탐지
+                    </li>
+                    <li>
+                        Behavior Based Scan(행위 기반 탐지): 특정한 명령어나
+                        행동 패턴에 대한 탐지. (파일 시스템 조작, 시스템 명령어
+                        실행 등의 이벤트 모니터링을 통한 이상 행위 탐지)
+                    </li>
+                    <li>
+                        네트워크 트래픽 분석: 명령 및 제어 서버에 대한
+                        아웃바운드 연결과 같은 웹쉘 활동의 징후에 대해 네트워크
+                        트래픽 모니터링
+                    </li>
+                    <li>
+                        실시간 보호 및 차단: 웹쉘 탐지 즉시 대응하여 해당 요청을
+                        차단하고 시스템을 보호하는 기능
+                    </li>
+                    <li>
+                        유연한 구성 옵션: 탐지 규칙이나 설정을 유연하게 구성할
+                        수 있는 기능
+                    </li>
+                    <li>알람 및 알림 기능: 웹쉘 감지시 관리자에게 알림</li>
+                    <li>로그 기능</li>
+                    <li>
+                        자가 학습: 지도/비지도 학습 또는 딥 러닝과 같은 기계
+                        학습 기술을 사용한 웹쉘 식별 기능
+                    </li>
+                </ol>
+            </div>
+            <div id="paragraph">
+                <header>Signature Based Scan</header>
+                Faster, and have low false positives rate. <br />
+                Bypass: Modifying the file's name, resizing or concatenating the
+                code, creating empty functions, etc.
+                <header>Behavior Based Scan</header>
+                <li>
+                    Sandboxing: Allocate and isolated space, execute the file
+                    and examine the actions it performs
+                </li>
+                <li>
+                    Anomaly detction: Hook key functions in the OS in order to
+                    get indication for any suspicious activity
+                </li>
+                slower, and requires deeper research to analyze the 'harmful'
+                activity, higher false positive rate.<br />
+                Bypass: Delaying harmful activity for a period of time or
+                modifying a different number of registry values, etc.
+            </div>
+        </div>
+        <div id="content">
+            <div id="paragraph">
+                <header>Signature/Behaviour based scan 구현 예시</header>
+                <pre>
+                    <code>
+import os
+import re
+import hashlib
+
+# Hashes for known signatures.
+# We can improve by storing these values in db.
+webshell_signatures = {
+    "hashforsomephp": "PHP webshell",
+    "hashforsomeasp": "ASP webshell",
+    "hashforsomejsp": "JSP webshell",
+}
+
+
+def detect_signature(file_path):
+    with open(file_path, "rb") as file:
+        file_contents = file.read()
+        md5_hash = hashlib.md5(file_contents).hexdigest()
+
+    if md5_hash in webshell_signatures:
+        return True
+
+    return False
+
+
+def detect_webshell(file_path):
+    # Open the file and read its contents
+    with open(file_path, "r") as file:
+        file_contents = file.read()
+
+    # Check for keywords associated with ewebshells
+    if re.search(r"(system|eval|base64_decode)", file_contents):
+        return True
+
+    # Check for other malicious functions
+    if re.search(r"(shell_exec|exec|passthru|proc_open|popen)", file_contents):
+        return True
+
+    return False
+
+
+def check_directory(directory):
+    # Get a list of all files in the directory
+    # os.walk(dir) returns 3-tuple: (dirpath, dirnames, filenames)
+    for root, dirs, files in os.walk(directory):
+        for file_name in files:
+            # Check if the file has a php extension
+            if (
+                file_name.endswith(".php")
+                or file_name.endswith(".php3")
+                or file_name.endswith(".phtml")
+            ):
+                file_path = os.path.join(root, file_name)
+                if detect_webshell(file_path) or detect_signature(file_name):
+                    print("Webshell detected in file: ", file_path)
+
+    print("Finished checking directory: ", directory)
+
+
+# Example usage
+directory = "/path/to/uploaded/files"
+check_directory(directory)
+
+                    </code>
+                </pre>
+            </div>
+        </div>
     </body>
 </html>
