@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SQL Basic</title>
+    </head>
+    <body>
+        <h1>Types of DB</h1>
+        <ol>
+            <li>Relational Database: RDB</li>
+            데이터를 열과 행을 가진 테이블 형태로 표현하며, 구조적으로 데이터를
+            관리한다.
+            <div>
+                관계형 데이터베이스를 관리하는 MS(management system) 종류:
+            </div>
+            <ul>
+                <li>MySQL</li>
+                <li>Oracle</li>
+                <li>SQLite</li>
+                <li>MariaDB</li>
+                <li>PostgresSQL</li>
+                ...
+            </ul>
+            <li>NoSQL (Non-relational Database)</li>
+            <div>비관계형 데이터베이스의 종류:</div>
+            <ul>
+                <li>Key-value type (Redis)</li>
+                <li>Document type (MongoDB)</li>
+                <li>Wide-column store DB (Cassandra)</li>
+                <li>Graph DB (Neo4j)</li>
+                ...
+            </ul>
+        </ol>
+
+        <h2>Summary:</h2>
+        <table border="1" style="width: 75vh">
+            <thead>
+                <th>SQL DB</th>
+                <th>NoSQL DB</th>
+            </thead>
+            <tbody style="text-align: center">
+                <tr>
+                    <td>Table 구조</td>
+                    <td>Document 구조</td>
+                </tr>
+                <tr>
+                    <td>Schema 준수</td>
+                    <td>DB를 유연하게 변경가능</td>
+                </tr>
+                <tr>
+                    <td>관계 형성에 적합</td>
+                    <td>복잡한 관계에 부적합</td>
+                </tr>
+                <tr>
+                    <td>수직적 확장</td>
+                    <td>수직적/수평적 확장</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>그 외 계층형, 네트워크형, 객체지향형 데이터베이스 등이 존재한다.</p>
+
+        <h1>Structured Query Language(SQL)</h1>
+        <ul>
+            <li>DDL(Data Definition Language)</li>
+            CREATE, DROP, ALTER ...
+            <li>DML(Data Manipulation Language)</li>
+            SELECT, INSERT, UPDATE, DELETE ...
+            <li>DCL(Data Control Language)</li>
+            CRANT, REVOKE ...
+        </ul>
+        <h3>데이터 처리를 위한 CRUD</h3>
+        <p>
+            대부분의 컴퓨터 소프트웨어가 가지는 기본적인 데이터 처리 기능인
+            Create, Read, Update, Delete를 묶어서 일컫는 말로서, 사용자
+            인터페이스가 갖추어야 할 기능(정보 참조/검색/갱신)을 가리키는
+            용어로도 사용된다.
+        </p>
+        <p>
+            SQL문으로 대응시키면, C->UBSERT, R->SELECT, U->UPDATE, D->DELETE로
+            대응할 수 있다.
+        </p>
+
+        <h3>기본 문법</h3>
+        <ol>
+            <li>CREATE, DROP</li>
+            <ul>
+                <li>CREATE DATABASE [db_name]</li>
+                <li>
+                    CREATE TABLE [table_name] ([column_name1] [data_type1],
+                    [column_name2] [data_type2], ...)
+                </li>
+                <li>DROP [DATABASE/TABLE] [name]</li>
+            </ul>
+            <li>INSERT, SELECT, UPDATE, DELETE</li>
+            <ul>
+                <li>
+                    INSERT INTO [table_name] ([column1], [column2], ...) VALUES
+                    ([value1], [value2], ...);
+                </li>
+                <li>SELECT [column1, ...] FROM [table] WHERE [condition];</li>
+                <li>UPDATE [table] SET [column1]=[value1] WHERE [condition];</li>
+                <li>DELETE FROM [table] WHERE [condition];</li>
+            </ul>
+        </ol>
+    </body>
+</html>
