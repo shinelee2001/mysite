@@ -29,7 +29,10 @@ function generateGraph(numNodes) {
     // create lines between nods
     for (let i = 0; i < numNodes; i++) {
         for (let j = i + 1; j < numNodes; j++) {
-            lines.push({ start: nodes[i], end: nodes[j] });
+            // Randomly make a line
+            if (Math.random() < 0.8) {
+                lines.push({ start: nodes[i], end: nodes[j] });
+            }
         }
     }
 }

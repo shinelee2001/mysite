@@ -13,13 +13,13 @@
             <div id="paragraph">
                 <header>코드 요약</header>
                 <pre><code>
-                    // 반복문 활용 예
-                    for i in range(10):
-                        row_cell = sheet.cell(row(i+1), column=1)
-                        row_cell.value = str(i+1)
+// 반복문 활용 예
+for i in range(10):
+    row_cell = sheet.cell(row(i+1), column=1)
+    row_cell.value = str(i+1)
                     
-                    // 열 선택 및 넓이 조절
-                    sheet.column_dimensions['A'].width = 25
+// 열 선택 및 넓이 조절
+sheet.column_dimensions['A'].width = 25
                 </code></pre>
             </div>
         </div>
@@ -78,14 +78,18 @@ cell.value = "행렬을 이용하여 값 입력2"
 book.save("py_excel02.xlsx")
                     </code>
                 </pre>
-                <img src="./prac03_result.png" alt="result img" width="100%">
+                <img src="./prac03_result.png" alt="result img" width="100%" />
             </div>
         </div>
         <div id="content">
             <h1>응용</h1>
             <div id="paragraph">
-                <header>실습04. shodan API 서버 응답의 값(JSON)을 엑셀파일로 저장</header>
-                <a href="https://developer.shodan.io/api">shodan REST API Reference</a>
+                <header>
+                    실습04. shodan API 서버 응답의 값(JSON)을 엑셀파일로 저장
+                </header>
+                <a href="https://developer.shodan.io/api"
+                    >shodan REST API Reference</a
+                >
                 <pre>
                     <code>
 import openpyxl as excel
@@ -121,6 +125,100 @@ sheet.column_dimensions['A'].width = 32
 book.save("py_excel03.xlsx")
                     </code>
                 </pre>
+            </div>
+            <div id="paragraph">
+                <header>실습05. Parsing XML files</header>
+                We can parse xml files using various ways. Here, I introduce 2
+                ways of parsing xml files.
+                <ol>
+                    <li style="font-weight: bold">Using xml library</li>
+                    <p>
+                        <code>
+                            import requests<br />
+                            import xml.etree.ElementTree as ET<br />
+                            import pandas as pd<br /><br />
+
+                            url = "url_for_rss.xml"<br />
+                            res = requests.get(url)<br /><br />
+                            # Create an ElementTree object by parsing the
+                            content of xml<br />
+                            root = ET.fromstring(res.content)<br /><br />
+
+                            # Extract the required data in list<br />
+                            titles = []<br />
+                            links = []<br />
+                            descriptions = []<br />
+                            authors = []<br />
+                            pubDates = []<br />
+                            for item in root.findall('.//item'):<br />
+                            &emsp;&emsp;titles.append(tiem.find('title').text)<br />
+                            &emsp;&emsp;links.append(tiem.find('link').text)<br />
+                            &emsp;&emsp;descriptions.append(tiem.find('description').text)<br />
+                            &emsp;&emsp;authors.append(tiem.find('author').text)<br />
+                            &emsp;&emsp;pubDates.append(tiem.find('pubDate').text)<br /><br />
+
+                            # Save the extracted data in pandas DataFrame<br />
+                            data = { 'Title': titles, 'Link': links,
+                            'Description': descriptions, 'Author': authors,
+                            'PubDate': pubDates}<br />
+                            df = pd.DataFrame(data)<br /><br />
+
+                            # Save the DataFrame as in excel format<br />
+                            df.to_excel('example.xlsx', index=False)
+                        </code>
+                    </p>
+
+                    <li style="font-weight: bold">Using feedparser library</li>
+                    <p>
+                        <code>
+                            import feedparser<br />
+                            import pandas as pd<br /><br />
+
+                            url = "url_for_rss.xml"<br /><br />
+
+                            # Parse RSS feed<br />
+                            feed = feedparser.parse(url)<br /><br />
+
+                            # Extract the required data in list<br />
+                            titles = []<br />
+                            links = []<br />
+                            descriptions = []<br />
+                            authors = []<br />
+                            pubDates = []<br />
+                            for entry in feed.entries:<br />
+                            &emsp;&emsp;titles.append(entry.title)<br />
+                            &emsp;&emsp;links.append(entry.link)<br />
+                            &emsp;&emsp;descriptions.append(entry.description)<br />
+                            &emsp;&emsp;authors.append(entry.author)<br />
+                            &emsp;&emsp;pubDates.append(entry.published)<br /><br />
+
+                            # Save the extracted data in pandas DataFrame<br />
+                            data = { 'Title': titles, 'Link': links,
+                            'Description': descriptions, 'Author': authors,
+                            'PubDate': pubDates}<br />
+                            df = pd.DataFrame(data)<br /><br />
+
+                            # Save the DataFrame as in excel format<br />
+                            df.to_excel('example.xlsx', index=False)
+                        </code>
+                    </p>
+                    <li style="font-weight: bold">
+                        Appendix: Save 10 data on each sheet on excel using for
+                        loop:
+                    </li>
+                    <p>
+                        <code>
+                            with pandas.ExcelWriter('rss1.xlsx') as writer:<br />
+                            &emsp;&emsp;sheet_count = 0 for i in range(0,
+                            len(df), 10):<br />
+                            &emsp;&emsp;sheet_count += 1 sheet_name =
+                            f'Shhet{sheet_count}'<br />
+                            &emsp;&emsp;df.iloc[i:i+10].to_excel(writer,sheet_name=sheet_name,
+                            index=False)
+                        </code>
+                    </p>
+                </ol>
+                <img src="./rss_result.png" alt="result img" width="100%" />
             </div>
         </div>
     </body>
