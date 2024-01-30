@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+        <title>Webshell</title>
+    </head>
+    <body>
+        <h3>웹쉘 실행을 위한 전제 조건</h3>
+        <ol>
+            <li>
+                웹 어플리케이션 서버에서 사용하는 언어로 제작된 웹쉘 사용
+                (Server-Side Script 확장자 파일)
+            </li>
+            <li>웹 어플리케이션 서버의 웹 디렉터리 내 웹쉘 존재</li>
+            즉, 서버의 파일 시스템에 웹쉘이 존재하여야 한다. 보통 이때
+            file-upload 취약점 공격을 한다.
+            <li>보안 솔루션이 존재할 경우 우회</li>
+            보안 솔루션 존재의 예시
+            <ul>
+                <li>Block before upload</li>
+                IPS, WAF, ...
+                <li>Block/deleted immediately after upload</li>
+                Anti-virus software, Webshell detection solutions, ...
+            </ul>
+        </ol>
+
+        <h3>웹쉘 핵심 동작 원리</h3>
+        
+    </body>
+</html>
