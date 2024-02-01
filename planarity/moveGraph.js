@@ -9,7 +9,7 @@ canvas.addEventListener('mousedown', (e) => {
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
 
-    // Check the mouse clicked node
+    // Check if the mouse clicked node
     for (let node of nodes) {
         // distance between clicked and node positions
         let dist = Math.sqrt((mouseX - node.x) ** 2 + (mouseY - node.y) ** 2);
@@ -27,6 +27,8 @@ canvas.addEventListener('mousemove', (e) => {
         const rect = canvas.getBoundingClientRect();
         const mouseX = e.clientX - rect.left;
         const mouseY = e.clientY - rect.top;
+
+        // Move the selected node
         selectedNode.x = mouseX - offset.x;
         selectedNode.y = mouseY - offset.y;
         draw();
