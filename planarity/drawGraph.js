@@ -175,6 +175,9 @@ function drawLines() {
         drawLine(edge.start.x, edge.start.y, edge.end.x, edge.end.y);
     }
 
+    /////////////////////////////////////////////
+    // An algorithm for checking intersections //
+    /////////////////////////////////////////////
     // Check for intersections and update color
     for (let i = 0; i < edges.length; i++) {
         // Check if the current edge intersects with any other edge
