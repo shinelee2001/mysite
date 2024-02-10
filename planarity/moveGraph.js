@@ -4,7 +4,12 @@ const canvas = document.getElementById('gameCanvas');
 var selectedNode = null;
 var offset = { x: 0, y: 0 };
 
-canvas.addEventListener('mousedown', (e) => {
+// Define event types based on device type
+const eventTypeDown = isMobile() ? 'touchstart' : 'mousedown';
+const eventTypeMove = isMobile() ? 'touchmove' : 'mousemove';
+const eventTypeUp = isMobile() ? 'touchend' : 'mouseup';
+
+canvas.addEventListener(eventTypeDown, (e) => {
     const rect = canvas.getBoundingClientRect();
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
@@ -22,7 +27,7 @@ canvas.addEventListener('mousedown', (e) => {
     }
 });
 
-canvas.addEventListener('mousemove', (e) => {
+canvas.addEventListener(eventTypeMove, (e) => {
     if (selectedNode) {
         const rect = canvas.getBoundingClientRect();
         const mouseX = e.clientX - rect.left;
@@ -35,6 +40,6 @@ canvas.addEventListener('mousemove', (e) => {
     }
 });
 
-canvas.addEventListener('mouseup', (e) => {
+canvas.addEventListener(eventTypeUp, (e) => {
     selectedNode = null;
 });
